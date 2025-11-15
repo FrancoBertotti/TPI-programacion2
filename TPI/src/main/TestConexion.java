@@ -18,15 +18,12 @@ public class TestConexion {
                 System.out.println("✅ Conexión establecida con éxito.");
                 
                 // 🔹 Crear y ejecutar consulta SQL con PreparedStatement
-                String sql = "SELECT * FROM nombres";
+                String sql = "SELECT * FROM vehiculo LIMIT 1";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql); 
                         ResultSet rs = pstmt.executeQuery()) {
-                    System.out.println("📋 Listado de nombres:");
+                    System.out.println("📋 Listado de vehiculos:");
                     while (rs.next()) {
-                        int id = rs.getInt("id");
-                        String nombre = rs.getString("nombre");
-                        double edad = rs.getDouble("edad");
-                        System.out.println("ID: " + id + ", Nombre: " + nombre + ", edad: " + edad);
+                        System.out.println(rs.getString("dominio"));
                     }
                 }
             } else {

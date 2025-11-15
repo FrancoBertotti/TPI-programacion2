@@ -17,6 +17,16 @@ public class Vehiculo {
     private int anio;
     private String nroChasis;
     private SeguroVehicular seguro;
+    
+    public Vehiculo(String dominio, String marca, String modelo, int anio, String nroChasis) {
+        this.dominio = dominio;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.anio = anio;
+        this.nroChasis = nroChasis;
+        this.eliminado = false;
+        this.seguro = null;
+    }
 
     public Vehiculo(long id, boolean eliminado, String dominio, String marca, String modelo, int anio, String nroChasis, SeguroVehicular seguro) {
         this.id = id;
@@ -37,6 +47,10 @@ public class Vehiculo {
         this.seguro = seguro;
     }
 
+    public void setId(long id){
+        this.id = id;
+    }
+    
     public long getId() {
         return id;
     }

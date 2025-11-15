@@ -17,6 +17,23 @@ public class SeguroVehicular {
     private String nroPoliza;
     private Cobertura cobertura;
     private java.time.LocalDate vencimiento;
+    
+    /**
+     * 1. Constructor Vacío (Importante para el DAO)
+     */
+    public SeguroVehicular() {
+    }
+
+    /**
+     * 2. Constructor para crear uno NUEVO desde el AppMenu
+    */
+    public SeguroVehicular(String aseguradora, String nroPoliza, Cobertura cobertura, LocalDate vencimiento) {
+        this.aseguradora = aseguradora;
+        this.nroPoliza = nroPoliza;
+        this.cobertura = cobertura;
+        this.vencimiento = vencimiento;
+        this.eliminado = false;
+    }
 
     public SeguroVehicular(long id, boolean eliminado, String aseguradora, String nroPoliza, Cobertura cobertura ) {
         this.id = id;
@@ -32,6 +49,10 @@ public class SeguroVehicular {
         this.eliminado = eliminado;
     }
 
+    public void setId(long id){
+        this.id = id;
+    }
+    
     public long getId() {
         return id;
     }

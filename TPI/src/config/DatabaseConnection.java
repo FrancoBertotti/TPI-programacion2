@@ -7,14 +7,14 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     // Datos de conexión - Se configuran directamente en el código
-    private static final String URL = "jdbc:mysql://localhost:3306/tmp5";
+    private static final String URL = "jdbc:mysql://localhost:3306/seguros";
     private static final String USER = "root";
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "";
 
     static {
         try {
             // 🔹 Carga del driver JDBC de MySQL una sola vez
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             // 🔹 Se lanza una excepción en caso de que el driver no esté disponible
             throw new RuntimeException("Error: No se encontró el driver JDBC.", e);
