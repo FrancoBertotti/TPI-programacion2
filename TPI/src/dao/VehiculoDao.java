@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.sql.Statement;
 
@@ -51,7 +52,7 @@ public class VehiculoDao implements GenericDao<Vehiculo> {
 
             try (ResultSet rs = ps.executeQuery()){
                 if (rs.next()){
-                    SeguroVehicular s1 = new SeguroVehicular(1, false, "la segnuda", "fer748627", Cobertura.RC );
+                    SeguroVehicular s1 = new SeguroVehicular(1, false, "la segnuda", "fer748627", Cobertura.RC, LocalDate.parse("2026-01-15"));
 
                     Vehiculo v = new Vehiculo(
                             rs.getInt("id"),
@@ -80,12 +81,12 @@ public class VehiculoDao implements GenericDao<Vehiculo> {
     }
 
     @Override
-    public void actualizar( Connection con, int id) throws SQLException {
-
+    public int actualizar( Connection con, Vehiculo vehiculo) throws SQLException {
+        return 0;
     }
 
     @Override
-    public void eliminar(Connection conn, int id) throws SQLException {
-
+    public int eliminar(Connection conn, int id) throws SQLException {
+        return 0;
     }
 }

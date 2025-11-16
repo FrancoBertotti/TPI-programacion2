@@ -35,7 +35,7 @@ public class SeguroVehicular {
         this.eliminado = false;
     }
 
-    public SeguroVehicular(long id, boolean eliminado, String aseguradora, String nroPoliza, Cobertura cobertura ) {
+    public SeguroVehicular(long id, boolean eliminado, String aseguradora, String nroPoliza, Cobertura cobertura, LocalDate vencimiento ) {
         this.id = id;
         this.eliminado = eliminado;
         this.aseguradora = aseguradora;
@@ -73,8 +73,16 @@ public class SeguroVehicular {
         return cobertura;
     }
 
+    public void setCobertura(Cobertura cobertura) {
+        this.cobertura = cobertura;
+    }
+
     public LocalDate getVencimiento() {
         return vencimiento;
+    }
+
+    public void setVencimiento(LocalDate vencimiento) {
+        this.vencimiento = vencimiento;
     }
 
     @Override
