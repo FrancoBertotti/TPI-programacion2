@@ -1,13 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main;
-
-/**
- *
- * @author gabriel
- */
 
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -18,17 +9,12 @@ import entities.SeguroVehicular;
 import entities.Cobertura;
 import Services.VehiculoService;
 import Services.SeguroVehicularService;
-import config.DatabaseConnection;
-import dao.SeguroVehicularDao;
-import dao.VehiculoDao;
-import java.sql.Connection;
-import java.sql.SQLException;
+import dao.SeguroVehicularDao; // esta hay que borrarla
 
 public class AppMenu {
 
     private Scanner scanner;
     
-    private VehiculoDao vehiculoDao;
     private SeguroVehicularDao seguroVehicularDao;
     
     private VehiculoService vehiculoService;
@@ -38,8 +24,7 @@ public class AppMenu {
         this.scanner = new Scanner(System.in);
         this.vehiculoService = new VehiculoService();
         this.seguroService = new SeguroVehicularService();
-        
-        this.vehiculoDao = new VehiculoDao();
+      
         this.seguroVehicularDao = new SeguroVehicularDao();
     }
 
@@ -62,7 +47,7 @@ public class AppMenu {
 
                 switch (opcion) {
                     case 1:
-                        crearVehiculo();
+                       crearVehiculo();
                         break;
                     case 2:
                         buscarVehiculoPorId();
@@ -115,24 +100,10 @@ public class AppMenu {
             System.out.print("Numero de chasis: ");
             String nroChasis = scanner.nextLine();
 
-            Vehiculo v = new Vehiculo(dominio, marca, modelo, anio, nroChasis);
-
-            //vehiculoService.crear(v);
+            Vehiculo vehiculo = new Vehiculo(dominio, marca, modelo, anio, nroChasis);
+            Vehiculo vehiculoCreado = vehiculoService.crearVehiculo(vehiculo);
             
-            try (Connection conn = DatabaseConnection.getConnection()) {
-                
-                
-                vehiculoDao.agregar(conn, v);
-                
-            } catch(SQLException e){
-                System.err.println("Error en inserción " + e);
-            }
-            
-            
-            
-            
-            System.out.println("Vehiculo creado (simulacion):");
-            System.out.println(v);
+            System.out.println(vehiculoCreado);
 
         } catch (InputMismatchException e) {
             System.out.println("Error: el anio debe ser numerico.");
