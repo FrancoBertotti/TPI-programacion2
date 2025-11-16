@@ -36,13 +36,16 @@ public class VehiculoService {
 //  return vehiculoDAO.buscarPorId(id);
 // Construir el objeto Vehiculo desde ResultSet.   
     public Vehiculo buscarPorId(long id) {
+        Vehiculo vehiculo = null;
         System.out.println("Buscando ID: " + id);
-        if (id == 1) { 
-            Vehiculo v = new Vehiculo("AA123BB", "Toyota", "Corolla", 2020, "CHASIS123");
-            v.setId(1L); 
-            return v;
+        try(Connection conn = DatabaseConnection.getConnection()){
+            vehiculo = vehiculoDao.leer(conn, id);
         }
-        return null; 
+         catch(SQLException e) {
+                System.err.println("Error " + e);
+         return vehiculo;
+        }
+        return vehiculo; 
     }
     
     

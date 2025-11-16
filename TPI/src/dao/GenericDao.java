@@ -10,10 +10,10 @@ import java.util.List;
 public interface GenericDao<T> {
 
     public void agregar(Connection conn, T entity) throws SQLException;
-    public T leer(Connection conn, int id) throws SQLException;
+    public T leer(Connection conn, long id) throws SQLException;
     List<T> leerTodos(Connection conn) throws SQLException;
     int actualizar(Connection conn, T entity) throws SQLException;
 
-    int eliminar(Connection conn, int id) throws SQLException;
+    int eliminar(Connection conn, long id) throws SQLException;
 
 }

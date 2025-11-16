@@ -27,6 +27,16 @@ public class Vehiculo {
         this.eliminado = false;
         this.seguro = null;
     }
+        public Vehiculo(long id, boolean eliminado, String dominio, String marca, String modelo, int anio, String nroChasis) {
+        this.dominio = dominio;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.anio = anio;
+        this.nroChasis = nroChasis;
+        this.eliminado = eliminado;
+        this.seguro = null;
+        this.id = id;
+    }
 
     public Vehiculo(long id, boolean eliminado, String dominio, String marca, String modelo, int anio, String nroChasis, SeguroVehicular seguro) {
         this.id = id;

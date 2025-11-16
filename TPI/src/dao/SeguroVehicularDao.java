@@ -27,7 +27,7 @@ public class SeguroVehicularDao implements GenericDao<SeguroVehicular>{
         String sql = "INSERT INTO segurovehicular (eliminado, aseguradora, nroPoliza, cobertura, vencimiento) VALUES (?,?,?,?,?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-            ps.setInt(1, 0);
+            ps.setLong(1, 0);
             ps.setString(2, entity.getAseguradora());
             ps.setString(3, entity.getNroPoliza());
             ps.setString(4, entity.getCobertura().toString());
@@ -51,13 +51,13 @@ public class SeguroVehicularDao implements GenericDao<SeguroVehicular>{
 
     }
 
-    @Override
-    public SeguroVehicular leer(Connection conn, int id) throws SQLException {
+   @Override
+    public SeguroVehicular leer(Connection conn, long id) throws SQLException {
 
         String sql = "SELECT * FROM segurovehicular WHERE id = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setLong(1, id);
 
             try(ResultSet rs = ps.executeQuery()){
                 if (rs.next()){
@@ -129,12 +129,12 @@ public class SeguroVehicularDao implements GenericDao<SeguroVehicular>{
 
 
     @Override
-    public int eliminar(Connection conn, int id) throws SQLException {
+    public int eliminar(Connection conn, long id) throws SQLException {
 
         String sql = "DELETE FROM segurovehicular WHERE id = ?";
 
         try(PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             return ps.executeUpdate();
         }
 

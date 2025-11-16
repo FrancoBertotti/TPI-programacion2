@@ -43,35 +43,28 @@ public class VehiculoDao implements GenericDao<Vehiculo> {
 }
 
     @Override
-    public Vehiculo leer(Connection conn, int id) throws SQLException {
+    public Vehiculo leer(Connection conn, long id) throws SQLException {
        
         String sql = "SELECT * FROM vehiculo WHERE id = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setLong(1, id);
 
             try (ResultSet rs = ps.executeQuery()){
                 if (rs.next()){
-                    SeguroVehicular s1 = new SeguroVehicular(1, false, "la segnuda", "fer748627", Cobertura.RC, LocalDate.parse("2026-01-15"));
-
                     Vehiculo v = new Vehiculo(
-                            rs.getInt("id"),
+                            rs.getLong("id"),
                             rs.getBoolean("eliminado"),
+                            rs.getString("dominio"),
                             rs.getString("marca"),
                             rs.getString("modelo"),
-                            rs.getString("anio"),
                             rs.getInt("anio"),
-                            rs.getString("nroChasis"),
-                            s1
-                    );
-
+                            rs.getString("nroChasis")
+                            );
                     return v;
                 }
             }
-
         }
-
-
         return null;
     }
 
@@ -86,7 +79,7 @@ public class VehiculoDao implements GenericDao<Vehiculo> {
     }
 
     @Override
-    public int eliminar(Connection conn, int id) throws SQLException {
+    public int eliminar(Connection conn, long id) throws SQLException {
         return 0;
     }
 }

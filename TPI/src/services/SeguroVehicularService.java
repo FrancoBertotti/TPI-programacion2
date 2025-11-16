@@ -1,30 +1,41 @@
 package Services;
 
+import config.DatabaseConnection;
+import dao.SeguroVehicularDao;
 import entities.SeguroVehicular;
-import java.time.LocalDate;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class SeguroVehicularService {
 
-    public void crear(SeguroVehicular seguro) {
-        System.out.println("Creando seguro vehicular...");
-        System.out.println("Seguro " + seguro.getNroPoliza() + " guardado.");
+    private SeguroVehicularDao seguroDao;
+
+    public SeguroVehicularService() {
+        this.seguroDao = new SeguroVehicularDao();
     }
 
-    public SeguroVehicular buscarPorId(long id) {
-        System.out.println("Buscando seguro por ID: " + id);
+    // Crear seguro en BD
+    public void crear(SeguroVehicular seguro) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
 
-        // Simulacion: si el ID es 1, devolvemos un seguro de ejemplo
-        if (id == 1) {
-            SeguroVehicular s = new SeguroVehicular(
-                    "La Segunda",
-                    "POL123",
-                    entities.Cobertura.RC,
-                    LocalDate.now().plusYears(1)
-            );
-            s.setId(1L);
-            return s;
+            seguroDao.agregar(conn, seguro);  // Llama al DAO real
+            System.out.println("Seguro creado correctamente.");
+
+        } catch (SQLException e) {
+            System.err.println("Error al crear seguro: " + e.getMessage());
+            throw new RuntimeException("No se pudo crear el seguro.", e);
         }
+    }
 
-        return null; 
+    // Buscar seguro por ID
+    public SeguroVehicular buscarPorId(long id) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+
+            return seguroDao.leer(conn, (int) id);  // Adaptado a tu firma
+
+        } catch (SQLException e) {
+            System.err.println("Error al buscar seguro: " + e.getMessage());
+            return null;
+        }
     }
 }
