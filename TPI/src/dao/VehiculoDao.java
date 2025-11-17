@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class VehiculoDao implements GenericDao<Vehiculo> {
 
@@ -69,9 +70,49 @@ public class VehiculoDao implements GenericDao<Vehiculo> {
 
     @Override
     public List<Vehiculo> leerTodos(Connection conn) throws SQLException {
-        return List.of();
+        
+        String sql = "SELECT * FROM vehiculo";
+        List<Vehiculo> lista = new ArrayList<>();
+        
+        try (PreparedStatement ps =
+            conn.prepareStatement(sql);    
+            ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Vehiculo vehiculo = new Vehiculo(
+                        rs.getLong("id"), 
+                        rs.getBoolean("eliminado"), 
+                        rs.getString("dominio"),
+                        rs.getString("marca"), 
+                        rs.getString("modelo"), 
+                        rs.getInt("anio"), 
+                        rs.getString("nroChasis")
+                    );
+                        lista.add(vehiculo);
+                }
+            }
+        return lista;
     }
 
+ 
+   @Override
+    public int actualizar( Connection conn, Vehiculo vehiculo) throws SQLException {
+        
+        String sql = "UPDATE vehiculo SET eliminado = ?, dominio = ?, marca = ?, modelo = ?, anio = ?, nroChasis = ? WHERE id = ?";
+        
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                 ps.setBoolean(1, vehiculo.isEliminado());
+                 ps.setString (2, vehiculo.getDominio());
+                 ps.setString (3, vehiculo.getMarca());
+                 ps.setString (4, vehiculo.getModelo());
+                 ps.setInt    (5, vehiculo.getAnio());
+                 ps.setString (6, vehiculo.getNroChasis());
+                 ps.setLong   (7, vehiculo.getId());
+              
+               return ps.executeUpdate();
+            }
+    }
+    @Override
     public int actualizarSeguro(Connection conn, long idV, long idS) throws SQLException {
         String sql = "UPDATE vehiculo SET seguro = ? WHERE id = ?";
 
@@ -82,13 +123,21 @@ public class VehiculoDao implements GenericDao<Vehiculo> {
         }
     }
 
+
+             
+    
+    
+   
     @Override
     public int eliminar(Connection conn, long id) throws SQLException {
-        return 0;
+        
+        String sql = "UPDATE vehiculo SET eliminado = 1 WHERE id = ?";
+            
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setLong(1, id);
+                return ps.executeUpdate();
+            }
+
     }
 
-    @Override
-    public int actualizar(Connection conn, Vehiculo entity) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
