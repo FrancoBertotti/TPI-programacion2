@@ -139,5 +139,5 @@ public class SeguroVehicularDao implements GenericDao<SeguroVehicular>{
         }
 
     }
-    
+ 
 }
