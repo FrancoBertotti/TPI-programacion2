@@ -9,14 +9,12 @@ import entities.SeguroVehicular;
 import entities.Cobertura;
 import Services.VehiculoService;
 import Services.SeguroVehicularService;
-import dao.SeguroVehicularDao; // esta hay que borrarla
+
 
 public class AppMenu {
 
     private Scanner scanner;
-    
-    private SeguroVehicularDao seguroVehicularDao;
-    
+
     private VehiculoService vehiculoService;
     private SeguroVehicularService seguroService;
 
@@ -24,8 +22,6 @@ public class AppMenu {
         this.scanner = new Scanner(System.in);
         this.vehiculoService = new VehiculoService();
         this.seguroService = new SeguroVehicularService();
-      
-        this.seguroVehicularDao = new SeguroVehicularDao();
     }
 
     public void mostrarMenu() {
@@ -38,6 +34,11 @@ public class AppMenu {
             System.out.println("3. Crear seguro vehicular");
             System.out.println("4. Buscar seguro vehicular por ID");
             System.out.println("5. Asignar seguro a vehiculo");
+            System.out.println("6. Eliminar vehiculo");
+            System.out.println("7. Actualizar vehiculo");
+            System.out.println("8. Eliminar seguro");
+            System.out.println("9. Actualizar seguro");
+            System.out.println("10. Listar todos los vehiculos.");
             System.out.println("0. Salir");
             System.out.print("Ingrese una opcion: ");
 
@@ -60,6 +61,21 @@ public class AppMenu {
                         break;
                     case 5:
                         asignarSeguroAVehiculo();
+                        break;
+                        case 6:
+                        eliminarVehiculo();
+                        break;
+                        case 7:
+                        actualizarVehiculo();
+                        break;
+                        case 8:
+                        eliminarSeguroVehiculo();
+                        break;
+                        case 9:
+                        actualizarSeguroVehiculo();
+                        break;
+                        case 10:
+                        listarVehiculos();
                         break;
                     case 0:
                         System.out.println("Saliendo del sistema...");
@@ -133,7 +149,36 @@ public class AppMenu {
             scanner.nextLine();
         }
     }
+    
+    private void eliminarVehiculo() {
+        System.out.println("\n--- BUSCAR VEHICULO POR ID PARA ELIMINAR ---");
+        System.out.print("Ingrese ID: ");
 
+        try {
+            long id = scanner.nextLong();
+            scanner.nextLine();
+
+            Vehiculo v = vehiculoService.buscarPorId(id);
+
+            if (v != null) {
+                System.out.println("Vehiculo encontrado y eliminado:");
+                System.out.println(v);
+            } else {
+                System.out.println("No se encontro vehiculo con ese ID.");
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("Error: el ID debe ser numerico.");
+            scanner.nextLine();
+        }
+    }
+
+        private void actualizarVehiculo() {}
+        
+        private void listarVehiculos() {
+            vehiculoService.listarTodos();
+            
+        }
     // ================= SEGURO VEHICULAR =================
 
     private void crearSeguroVehicular() {
@@ -184,7 +229,7 @@ public class AppMenu {
 
             seguroService.crear(s);
 
-            System.out.println("Seguro creado (simulacion):");
+            System.out.println("Seguro creado: ");
             System.out.println(s);
 
         } catch (Exception e) {
@@ -215,6 +260,10 @@ public class AppMenu {
         }
     }
 
+    private void eliminarSeguroVehiculo() {}
+    
+         private void actualizarSeguroVehiculo() {}
+    
     // =========== ASIGNAR SEGURO A VEHICULO ===========
 
     private void asignarSeguroAVehiculo() {
@@ -228,30 +277,13 @@ public class AppMenu {
             System.out.print("Ingrese ID de seguro: ");
             long idSeguro = scanner.nextLong();
             scanner.nextLine();
-
-            Vehiculo v = vehiculoService.buscarPorId(idVehiculo);
-            SeguroVehicular s = seguroService.buscarPorId(idSeguro);
-
-            if (v == null) {
-                System.out.println("No se encontro vehiculo con ese ID (simulacion).");
-                return;
-            }
-
-            if (s == null) {
-                System.out.println("No se encontro seguro con ese ID (simulacion).");
-                return;
-            }
-
-            v.setSeguro(s);
-
-            System.out.println("Seguro asignado al vehiculo (simulacion):");
-            System.out.println(v);
-
-            // aca iria la logica para actualizar en la base de datos
-
-        } catch (InputMismatchException e) {
+            vehiculoService.asignarSeguro(idVehiculo, idSeguro);
+        }
+        catch (InputMismatchException e) {
             System.out.println("Error: los IDs deben ser numericos.");
             scanner.nextLine();
+        } catch (Exception e) {
+            System.out.println("Error al asignar seguro: " + e.getMessage());
         }
     }
 

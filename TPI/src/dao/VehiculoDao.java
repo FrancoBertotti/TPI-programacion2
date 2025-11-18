@@ -1,7 +1,7 @@
 package dao;
 
 import entities.Vehiculo;
-
+import entities.SeguroVehicular;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,6 +60,7 @@ public class VehiculoDao implements GenericDao<Vehiculo> {
                             rs.getString("modelo"),
                             rs.getInt("anio"),
                             rs.getString("nroChasis")
+                       //     rs.getSeguroVehicular(seguroVehicular("seguro"))
                     );
                     return v;
                 }
@@ -112,14 +113,16 @@ public class VehiculoDao implements GenericDao<Vehiculo> {
                return ps.executeUpdate();
             }
     }
-    @Override
     public int actualizarSeguro(Connection conn, long idV, long idS) throws SQLException {
         String sql = "UPDATE vehiculo SET seguro = ? WHERE id = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, idS);
             ps.setLong(2, idV);
-            return ps.executeUpdate();
+
+            int filasAfectadas = ps.executeUpdate(); 
+
+        return filasAfectadas;
         }
     }
 

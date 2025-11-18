@@ -6,7 +6,7 @@ import entities.SeguroVehicular;
 import entities.Vehiculo;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 
 public class VehiculoService {
@@ -16,6 +16,7 @@ public class VehiculoService {
 
     public VehiculoService() {
         this.vehiculoDao = new VehiculoDao();
+        this.seguroVehicularService = new SeguroVehicularService();
     }
 
     public Vehiculo crearVehiculo(Vehiculo vehiculo) {
@@ -30,8 +31,6 @@ public class VehiculoService {
         return vehiculo;
     }
 
-//  return vehiculoDAO.buscarPorId(id);
-// Construir el objeto Vehiculo desde ResultSet.   
     public Vehiculo buscarPorId(long id) {
         Vehiculo vehiculo = null;
         System.out.println("Buscando ID: " + id);
@@ -44,28 +43,37 @@ public class VehiculoService {
         return vehiculo;
     }
 
-    // - return vehiculoDAO.listarTodos();
     public List<Vehiculo> listarTodos() {
         System.out.println("Listando todos los vehiculos...");
-        return new ArrayList<>(); //esto esta muy mal
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            return vehiculoDao.leerTodos(conn);
+        } catch (SQLException e) {
+            System.err.println("Error al listar vehiculos " + e);
+            return null;
+        }
     }
 
-    public void asignarSeguro(long idV, long idS) {
-        Vehiculo vehiculo = buscarPorId(idV);
-        SeguroVehicular seguro = seguroVehicularService.buscarPorId(idS);
-
-        if (seguro == null || vehiculo == null) {
-            System.out.println("Fallo la asignacion del seguro al vehiculo, el seguro o el vehiculo no existe");
-            return;
+        public void asignarSeguro(long idVehiculo, long idSeguro) throws Exception {
+        Vehiculo vehiculo = buscarPorId(idVehiculo);
+        if (vehiculo == null) {
+            throw new Exception("No existe vehiculo con id " + idVehiculo);
+        }
+        SeguroVehicular seguro = seguroVehicularService.buscarPorId(idSeguro);
+        if (seguro == null) {
+            throw new Exception("No existe seguro con id " + idSeguro);
         }
 
         try (Connection conn = DatabaseConnection.getConnection()) {
-            vehiculoDao.agregar(conn, vehiculo);
-            System.out.println("Se asignó un seguro correctamente");
 
-        } catch (SQLException ex) {
-            System.out.println("Fallo la asignacion del seguro al vehiculo");
+            int filas = vehiculoDao.actualizarSeguro(conn, idVehiculo, idSeguro);
+
+            if (filas > 0) {
+                System.out.println("Seguro asignado correctamente.");
+            } else {
+                System.out.println("No se pudo asignar el seguro (no se actualizo ninguna fila).");
+            }
+        } catch (SQLException e) {
+            throw new Exception("Error de base de datos al asignar seguro: " + e.getMessage(), e);
+            }
         }
     }
-
-}

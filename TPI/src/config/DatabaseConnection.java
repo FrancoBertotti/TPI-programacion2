@@ -39,7 +39,7 @@ public class DatabaseConnection {
         try {
             // Intenta establecer la conexión
             conexion = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("✅ Conexión exitosa a la base de datos.");
+            //System.out.println("✅ Conexión exitosa a la base de datos.");
 
         } catch (SQLException e) {
             // Captura errores de conexión (ej. DB no existe, XAMPP no está corriendo, clave incorrecta)

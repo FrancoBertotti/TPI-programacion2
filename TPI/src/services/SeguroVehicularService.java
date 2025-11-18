@@ -31,7 +31,7 @@ public class SeguroVehicularService {
     public SeguroVehicular buscarPorId(long id) {
         try (Connection conn = DatabaseConnection.getConnection()) {
 
-            return seguroDao.leer(conn, (int) id);  // Adaptado a tu firma
+            return seguroDao.leer(conn, id);  // Adaptado a tu firma
 
         } catch (SQLException e) {
             System.err.println("Error al buscar seguro: " + e.getMessage());
