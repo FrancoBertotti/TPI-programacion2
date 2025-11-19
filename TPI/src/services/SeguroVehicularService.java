@@ -14,12 +14,11 @@ public class SeguroVehicularService {
         this.seguroDao = new SeguroVehicularDao();
     }
 
-    // Crear seguro en BD
     public void crear(SeguroVehicular seguro) {
         try (Connection conn = DatabaseConnection.getConnection()) {
 
-            seguroDao.agregar(conn, seguro);  // Llama al DAO real
-            System.out.println("Seguro creado correctamente.");
+            seguroDao.agregar(conn, seguro); 
+            System.out.println("Seguro creado con exito.");
 
         } catch (SQLException e) {
             System.err.println("Error al crear seguro: " + e.getMessage());
@@ -27,12 +26,9 @@ public class SeguroVehicularService {
         }
     }
 
-    // Buscar seguro por ID
     public SeguroVehicular buscarPorId(long id) {
         try (Connection conn = DatabaseConnection.getConnection()) {
-
-            return seguroDao.leer(conn, id);  // Adaptado a tu firma
-
+            return seguroDao.leer(conn, id); 
         } catch (SQLException e) {
             System.err.println("Error al buscar seguro: " + e.getMessage());
             return null;

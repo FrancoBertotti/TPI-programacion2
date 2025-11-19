@@ -9,6 +9,7 @@ package entities;
  * @author Franco
  */
 public class Vehiculo {
+
     private long id;
     private boolean eliminado;
     private String dominio;
@@ -17,7 +18,7 @@ public class Vehiculo {
     private int anio;
     private String nroChasis;
     private SeguroVehicular seguro;
-    
+
     public Vehiculo(String dominio, String marca, String modelo, int anio, String nroChasis) {
         this.dominio = dominio;
         this.marca = marca;
@@ -27,7 +28,8 @@ public class Vehiculo {
         this.eliminado = false;
         this.seguro = null;
     }
-        public Vehiculo(long id, boolean eliminado, String dominio, String marca, String modelo, int anio, String nroChasis) {
+
+    public Vehiculo(long id, boolean eliminado, String dominio, String marca, String modelo, int anio, String nroChasis) {
         this.dominio = dominio;
         this.marca = marca;
         this.modelo = modelo;
@@ -57,10 +59,10 @@ public class Vehiculo {
         this.seguro = seguro;
     }
 
-    public void setId(long id){
+    public void setId(long id) {
         this.id = id;
     }
-    
+
     public long getId() {
         return id;
     }
@@ -95,10 +97,7 @@ public class Vehiculo {
 
     @Override
     public String toString() {
-        return "Datos del Vehiculo: " + "id= " + id + ", eliminado= " + eliminado + ", dominio= " + dominio + ", marca= " + marca + ", modelo= " + modelo + ", anio= " + anio + ", nroChasis= " + nroChasis + ", seguro= " + seguro;
+        return "id= " + id + ", eliminado= " + eliminado + ", dominio= " + dominio + ", marca= " + marca + ", modelo= " + modelo + ", anio= " + anio + ", nroChasis= " + nroChasis + ", {Datos del seguro: " + seguro+"}";
     }
-    
-    
-    
-    
+
 }

@@ -11,13 +11,14 @@ import java.time.LocalDate;
  * @author Franco
  */
 public class SeguroVehicular {
+
     private long id;
     private boolean eliminado;
     private String aseguradora;
     private String nroPoliza;
     private Cobertura cobertura;
     private java.time.LocalDate vencimiento;
-    
+
     /**
      * 1. Constructor Vacío (Importante para el DAO)
      */
@@ -26,7 +27,7 @@ public class SeguroVehicular {
 
     /**
      * 2. Constructor para crear uno NUEVO desde el AppMenu
-    */
+     */
     public SeguroVehicular(String aseguradora, String nroPoliza, Cobertura cobertura, LocalDate vencimiento) {
         this.aseguradora = aseguradora;
         this.nroPoliza = nroPoliza;
@@ -35,24 +36,24 @@ public class SeguroVehicular {
         this.eliminado = false;
     }
 
-    public SeguroVehicular(long id, boolean eliminado, String aseguradora, String nroPoliza, Cobertura cobertura, LocalDate vencimiento ) {
+    public SeguroVehicular(long id, boolean eliminado, String aseguradora, String nroPoliza, Cobertura cobertura, LocalDate vencimiento) {
         this.id = id;
         this.eliminado = eliminado;
         this.aseguradora = aseguradora;
         this.nroPoliza = nroPoliza;
         this.cobertura = cobertura;
         this.vencimiento = vencimiento;
-        
+
     }
 
     public void setEliminado(boolean eliminado) {
         this.eliminado = eliminado;
     }
 
-    public void setId(long id){
+    public void setId(long id) {
         this.id = id;
     }
-    
+
     public long getId() {
         return id;
     }
@@ -87,13 +88,7 @@ public class SeguroVehicular {
 
     @Override
     public String toString() {
-        return "Seguro Vehicular: " + "id= " + id + ", eliminado= " + eliminado + ", aseguradora= " + aseguradora + ", nroPoliza= " + nroPoliza + ", cobertura= " + cobertura + ", vencimiento= " + vencimiento;
+        return "id= " + id + ", eliminado= " + eliminado + ", aseguradora= " + aseguradora + ", nroPoliza= " + nroPoliza + ", cobertura= " + cobertura + ", vencimiento= " + vencimiento;
     }
-    
-    
-    
-    
-    
-    
-    
+
 }

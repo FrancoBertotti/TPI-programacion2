@@ -6,7 +6,6 @@ import entities.SeguroVehicular;
 import entities.Vehiculo;
 import java.sql.Connection;
 import java.sql.SQLException;
-//import java.util.ArrayList;
 import java.util.List;
 
 public class VehiculoService {
@@ -33,7 +32,6 @@ public class VehiculoService {
 
     public Vehiculo buscarPorId(long id) {
         Vehiculo vehiculo = null;
-        System.out.println("Buscando ID: " + id);
         try (Connection conn = DatabaseConnection.getConnection()) {
             vehiculo = vehiculoDao.leer(conn, id);
         } catch (SQLException e) {
@@ -43,17 +41,19 @@ public class VehiculoService {
         return vehiculo;
     }
 
-    public List<Vehiculo> listarTodos() {
-        System.out.println("Listando todos los vehiculos...");
+    public void listarTodos() {
+        System.out.println("Lista de vehiculos: ");
         try (Connection conn = DatabaseConnection.getConnection()) {
-            return vehiculoDao.leerTodos(conn);
+            List<Vehiculo> lista = vehiculoDao.leerTodos(conn);
+            for (Vehiculo vehiculo : lista) {
+                System.out.println(vehiculo);
+            }
         } catch (SQLException e) {
             System.err.println("Error al listar vehiculos " + e);
-            return null;
         }
     }
 
-        public void asignarSeguro(long idVehiculo, long idSeguro) throws Exception {
+    public void asignarSeguro(long idVehiculo, long idSeguro) throws Exception {
         Vehiculo vehiculo = buscarPorId(idVehiculo);
         if (vehiculo == null) {
             throw new Exception("No existe vehiculo con id " + idVehiculo);
@@ -74,6 +74,6 @@ public class VehiculoService {
             }
         } catch (SQLException e) {
             throw new Exception("Error de base de datos al asignar seguro: " + e.getMessage(), e);
-            }
         }
     }
+}
