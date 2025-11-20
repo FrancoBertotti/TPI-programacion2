@@ -76,4 +76,37 @@ public class VehiculoService {
             throw new Exception("Error de base de datos al asignar seguro: " + e.getMessage(), e);
         }
     }
+    
+    // ELIMINAR VEHICULO  
+    public boolean eliminarVehiculo(long id) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+
+            int filas = vehiculoDao.eliminar(conn, id);  // UPDATE
+
+            if (filas == 0) {
+                System.out.println("No se encontro vehiculo con ese ID.");
+                return false;
+            }
+
+            System.out.println("Vehiculo eliminado correctamente (baja logica).");
+            return true;
+
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar vehiculo: " + e.getMessage());
+            return false;
+            }
+        }
+    public boolean actualizarVehiculo(Vehiculo vehiculo) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+
+            int filas = vehiculoDao.actualizar(conn, vehiculo);
+
+            return filas > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar vehiculo: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

@@ -66,6 +66,10 @@ public class SeguroVehicular {
         return aseguradora;
     }
 
+    public void setNroPoliza(String nuevaPoliza) {
+    nroPoliza = nuevaPoliza;
+}
+    
     public String getNroPoliza() {
         return nroPoliza;
     }
@@ -78,6 +82,10 @@ public class SeguroVehicular {
         this.cobertura = cobertura;
     }
 
+    public void setAseguradora(String nuevaAseguradora) {
+    aseguradora = nuevaAseguradora;
+}
+    
     public LocalDate getVencimiento() {
         return vencimiento;
     }
