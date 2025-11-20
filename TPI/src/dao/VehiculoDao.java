@@ -78,22 +78,24 @@ public class VehiculoDao implements GenericDao<Vehiculo> {
         return null;
     }
 
-    @Override
+        @Override
     public List<Vehiculo> leerTodos(Connection conn) throws SQLException {
 
-        String sql = "SELECT id FROM vehiculo";
+        String sql = "SELECT id FROM vehiculo WHERE eliminado = 0";
         List<Vehiculo> lista = new ArrayList<>();
 
-        try (PreparedStatement ps
-                = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
-                long v = rs.getLong("id");
-                Vehiculo vehiculo = this.leer(conn, v);
+                long id = rs.getLong("id");
+                Vehiculo vehiculo = this.leer(conn, id);
                 lista.add(vehiculo);
             }
         }
-        return lista;
-    }
+
+    return lista;
+}
 
     @Override
     public int actualizar(Connection conn, Vehiculo vehiculo) throws SQLException {

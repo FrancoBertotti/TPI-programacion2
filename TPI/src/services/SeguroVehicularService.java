@@ -34,4 +34,24 @@ public class SeguroVehicularService {
             return null;
         }
     }
+    
+     // ELIMINAR SEGURO
+    public boolean eliminarSeguro(long id) {
+    try (Connection conn = DatabaseConnection.getConnection()) {
+
+        int filas = seguroDao.eliminar(conn, id);
+
+        if (filas == 0) {
+            System.out.println("No se encontro seguro con ese ID.");
+            return false;
+        }
+
+        System.out.println("Seguro eliminado correctamente.");
+        return true;
+
+    } catch (SQLException e) {
+        System.err.println("Error al eliminar seguro: " + e.getMessage());
+        return false;
+        }
+    }
 }

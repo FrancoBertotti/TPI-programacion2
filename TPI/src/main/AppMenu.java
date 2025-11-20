@@ -147,7 +147,7 @@ public class AppMenu {
     }
 
     private void eliminarVehiculo() {
-        System.out.println("\n--- BUSCAR VEHICULO POR ID PARA ELIMINAR ---");
+        System.out.println("\n--- ELIMINAR VEHICULO POR ID ---");
         System.out.print("Ingrese ID: ");
 
         try {
@@ -156,18 +156,27 @@ public class AppMenu {
 
             Vehiculo v = vehiculoService.buscarPorId(id);
 
-            if (v != null) {
-                System.out.println("Vehiculo encontrado y eliminado:");
-                System.out.println(v);
-            } else {
+            if (v == null) {
                 System.out.println("No se encontro vehiculo con ese ID.");
+                return;
             }
 
-        } catch (InputMismatchException e) {
-            System.out.println("Error: el ID debe ser numerico.");
-            scanner.nextLine();
+                System.out.println("Vehiculo encontrado:");
+                System.out.println(v);
+
+            boolean exito = vehiculoService.eliminarVehiculo(id);
+
+            if (exito) {
+                System.out.println("Se elimino el vehiculo correctamente.");
+            } else {
+                System.out.println("No se pudo eliminar el vehiculo.");
         }
-    }
+
+    }       catch (InputMismatchException e) {
+                System.out.println("Error: el ID debe ser numerico.");
+                scanner.nextLine();
+            }
+        }
 
     private void actualizarVehiculo() {
     }
@@ -255,6 +264,36 @@ public class AppMenu {
     }
 
     private void eliminarSeguroVehiculo() {
+        System.out.println("\n--- ELIMINAR SEGURO VEHICULAR POR ID ---");
+        System.out.print("Ingrese ID: ");
+
+        try {
+            long id = scanner.nextLong();
+            scanner.nextLine();
+
+            SeguroVehicular s = seguroService.buscarPorId(id);
+
+            if (s == null) {
+                System.out.println("No se encontro seguro con ese ID.");
+                return;
+            }
+
+            System.out.println("Seguro encontrado:");
+            System.out.println(s);
+
+            boolean exito = seguroService.eliminarSeguro(id);
+
+            if (exito) {
+                System.out.println("Seguro eliminado correctamente.");
+                System.out.println("Si habia un vehiculo asociado este quedo NULL");
+            } else {
+                System.out.println("No se pudo eliminar el seguro.");
+            }
+
+        }   catch (InputMismatchException e) {
+                System.out.println("Error: el ID debe ser numerico.");
+                scanner.nextLine();
+        }
     }
 
     private void actualizarSeguroVehiculo() {
