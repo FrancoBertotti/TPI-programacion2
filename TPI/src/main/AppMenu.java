@@ -8,17 +8,22 @@ import entities.SeguroVehicular;
 import entities.Cobertura;
 import Services.VehiculoService;
 import Services.SeguroVehicularService;
+import services.TransaccionVehiculoSeguroService;
 
 public class AppMenu {
 
     private Scanner scanner;
     private VehiculoService vehiculoService;
     private SeguroVehicularService seguroService;
+    private final TransaccionVehiculoSeguroService transaccionService;
+    
+
 
     public AppMenu() {
         this.scanner = new Scanner(System.in);
         this.vehiculoService = new VehiculoService();
         this.seguroService = new SeguroVehicularService();
+        this.transaccionService = new TransaccionVehiculoSeguroService();
     }
 
     public void mostrarMenu() {
@@ -35,7 +40,8 @@ public class AppMenu {
             System.out.println("7. Actualizar vehiculo");
             System.out.println("8. Eliminar seguro");
             System.out.println("9. Actualizar seguro");
-            System.out.println("10. Listar todos los vehiculos.");
+            System.out.println("10.Listar todos los vehiculos.");
+            System.out.println("11.Crear vehículo + seguro (transacción manual)");
             System.out.println("0. Salir");
             System.out.print("Ingrese una opcion: ");
 
@@ -73,6 +79,9 @@ public class AppMenu {
                         break;
                     case 10:
                         listarVehiculos();
+                        break;
+                    case 11:
+                        crearVehiculoConSeguroTransaccion();
                         break;
                     case 0:
                         System.out.println("Saliendo del sistema...");
@@ -436,6 +445,68 @@ public class AppMenu {
             System.out.println("Error al asignar seguro: " + e.getMessage());
         }
     }
+    
+    
+    // =========== CREAR VEHICULO + SEGURO (TRANSACCIÓN) ===========
+    
+    private void crearVehiculoConSeguroTransaccion() {
+    System.out.println("\n--- CREAR VEHICULO + SEGURO EN UNA ÚNICA TRANSACCIÓN (MANUAL)---");
+
+    try {
+        
+        System.out.print("Dominio: ");
+        String dominio = scanner.nextLine().toUpperCase();
+
+        System.out.print("Marca: ");
+        String marca = scanner.nextLine();
+
+        System.out.print("Modelo: ");
+        String modelo = scanner.nextLine();
+
+        System.out.print("Año: ");
+        int anio = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Número de chasis: ");
+        String nroChasis = scanner.nextLine();
+
+        Vehiculo vehiculo = new Vehiculo(dominio, marca, modelo, anio, nroChasis);
+
+        
+        System.out.print("Aseguradora: ");
+        String aseguradora = scanner.nextLine();
+
+        System.out.print("Número de póliza: ");
+        String nroPoliza = scanner.nextLine();
+
+        System.out.println("Tipo de cobertura:");
+        System.out.println("1) RC");
+        System.out.println("2) TERCEROS");
+        System.out.println("3) TODO_RIESGO");
+        int opc = scanner.nextInt();
+        scanner.nextLine();
+
+        Cobertura cobertura = (opc == 2) ? Cobertura.TERCEROS :
+                              (opc == 3) ? Cobertura.TODO_RIESGO :
+                              Cobertura.RC;
+
+        System.out.print("Vencimiento (AAAA-MM-DD): ");
+        String fechaStr = scanner.nextLine();
+        LocalDate vencimiento = LocalDate.parse(fechaStr);
+
+        SeguroVehicular seguro = new SeguroVehicular(
+            aseguradora, nroPoliza, cobertura, vencimiento
+        );
+
+        
+        TransaccionVehiculoSeguroService txService = new TransaccionVehiculoSeguroService();
+        txService.crearVehiculoConSeguro(vehiculo, seguro);
+
+    } catch (Exception e) {
+        System.out.println("Error en transacción: " + e.getMessage());
+    }
+}
+    
 
     // ================= MAIN =================
     public static void main(String[] args) {
