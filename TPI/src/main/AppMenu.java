@@ -179,7 +179,52 @@ public class AppMenu {
         }
 
     private void actualizarVehiculo() {
+    System.out.println("\n--- ACTUALIZAR VEHICULO ---");
+    System.out.print("Ingrese ID del vehiculo: ");
+
+    try {
+        long id = scanner.nextLong();
+        scanner.nextLine();
+
+        Vehiculo existente = vehiculoService.buscarPorId(id);
+
+        if (existente == null) {
+            System.out.println("No se encontro vehiculo con ese ID.");
+            return;
+        }
+
+        System.out.println("Vehiculo actual:");
+        System.out.println(existente);
+
+        System.out.print("Nuevo dominio: ");
+        existente.setDominio(scanner.nextLine());
+
+        System.out.print("Nueva marca: ");
+        existente.setMarca(scanner.nextLine());
+
+        System.out.print("Nuevo modelo: ");
+        existente.setModelo(scanner.nextLine());
+
+        System.out.print("Nuevo anio: ");
+        existente.setAnio(scanner.nextInt());
+        scanner.nextLine();
+
+        System.out.print("Nuevo numero de chasis: ");
+        existente.setNroChasis(scanner.nextLine());
+
+        boolean exito = vehiculoService.actualizarVehiculo(existente);
+
+        if (exito) {
+            System.out.println("Vehiculo actualizado correctamente.");
+        } else {
+            System.out.println("No se pudo actualizar el vehiculo.");
+        }
+
+    } catch (InputMismatchException e) {
+        System.out.println("Error: el anio e ID deben ser numericos.");
+        scanner.nextLine();
     }
+}
 
     private void listarVehiculos() {
         vehiculoService.listarTodos();
@@ -297,8 +342,80 @@ public class AppMenu {
     }
 
     private void actualizarSeguroVehiculo() {
-    }
 
+        System.out.println("\n--- ACTUALIZAR SEGURO VEHICULAR ---");
+        System.out.print("Ingrese ID del seguro: ");
+
+        try {
+            long id = scanner.nextLong();
+            scanner.nextLine();
+
+        // buscar seguro existente
+            SeguroVehicular existente = seguroService.buscarPorId(id);
+
+            if (existente == null) {
+                System.out.println("No se encontro seguro con ese ID.");
+                return;
+            }
+
+            System.out.println("Seguro actual:");
+            System.out.println(existente);
+
+            System.out.print("Nueva aseguradora: ");
+            String nuevaAseguradora = scanner.nextLine();
+
+            System.out.print("Nuevo numero de poliza: ");
+            String nuevaPoliza = scanner.nextLine();
+
+            System.out.println("Nueva cobertura:");
+            System.out.println("1. RC");
+            System.out.println("2. TERCEROS");
+            System.out.println("3. TODO_RIESGO");
+            System.out.print("Seleccione una opcion: ");
+            int opcCob = scanner.nextInt();
+            scanner.nextLine();
+
+            Cobertura nuevaCobertura;
+            switch (opcCob) {
+                case 1:
+                    nuevaCobertura = Cobertura.RC;
+                    break;
+                case 2:
+                    nuevaCobertura = Cobertura.TERCEROS;
+                    break;
+                    case 3:
+                    nuevaCobertura = Cobertura.TODO_RIESGO;
+                    break;
+                default:
+                    System.out.println("Opcion invalida. No se actualiza el seguro.");
+                    return;
+            }
+
+            System.out.print("Nuevo vencimiento (AAAA-MM-DD): ");
+            String fechaStr = scanner.nextLine();
+            LocalDate nuevoVencimiento = LocalDate.parse(fechaStr);
+
+            existente.setAseguradora(nuevaAseguradora);
+            existente.setNroPoliza(nuevaPoliza);
+            existente.setCobertura(nuevaCobertura);
+            existente.setVencimiento(nuevoVencimiento);
+
+            boolean exito = seguroService.actualizarSeguro(existente);
+
+            if (exito) {
+                System.out.println("Seguro actualizado correctamente.");
+            } else {
+                System.out.println("No se pudo actualizar el seguro.");
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("Error: los datos numericos son invalidos.");
+            scanner.nextLine();
+        }   catch (Exception e) {
+            System.out.println("Error al actualizar seguro: " + e.getMessage());
+        }
+    }
+               
     // =========== ASIGNAR SEGURO A VEHICULO ===========
     private void asignarSeguroAVehiculo() {
         System.out.println("\n--- ASIGNAR SEGURO A VEHICULO ---");

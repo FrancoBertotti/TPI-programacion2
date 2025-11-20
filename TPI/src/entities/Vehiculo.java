@@ -62,9 +62,29 @@ public class Vehiculo {
     public void setId(long id) {
         this.id = id;
     }
-
+    
     public long getId() {
         return id;
+    }
+    
+        public void setDominio(String dominio) {
+        this.dominio = dominio;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }   
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
+    public void setNroChasis(String nroChasis) {
+        this.nroChasis = nroChasis;
     }
 
     public boolean isEliminado() {
@@ -99,5 +119,4 @@ public class Vehiculo {
     public String toString() {
         return "id= " + id + ", eliminado= " + eliminado + ", dominio= " + dominio + ", marca= " + marca + ", modelo= " + modelo + ", anio= " + anio + ", nroChasis= " + nroChasis + ", {Datos del seguro: " + seguro+"}";
     }
-
-}
+ }

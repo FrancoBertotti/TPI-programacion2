@@ -78,22 +78,35 @@ public class VehiculoService {
     }
     
     // ELIMINAR VEHICULO  
-public boolean eliminarVehiculo(long id) {
-    try (Connection conn = DatabaseConnection.getConnection()) {
+    public boolean eliminarVehiculo(long id) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
 
-        int filas = vehiculoDao.eliminar(conn, id);  // UPDATE vehiculo SET eliminado = 1 WHERE id = ?
+            int filas = vehiculoDao.eliminar(conn, id);  // UPDATE
 
-        if (filas == 0) {
-            System.out.println("No se encontro vehiculo con ese ID.");
+            if (filas == 0) {
+                System.out.println("No se encontro vehiculo con ese ID.");
+                return false;
+            }
+
+            System.out.println("Vehiculo eliminado correctamente (baja logica).");
+            return true;
+
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar vehiculo: " + e.getMessage());
+            return false;
+            }
+        }
+    public boolean actualizarVehiculo(Vehiculo vehiculo) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+
+            int filas = vehiculoDao.actualizar(conn, vehiculo);
+
+            return filas > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar vehiculo: " + e.getMessage());
             return false;
         }
-
-        System.out.println("Vehiculo eliminado correctamente (baja logica).");
-        return true;
-
-    } catch (SQLException e) {
-        System.err.println("Error al eliminar vehiculo: " + e.getMessage());
-        return false;
-        }
     }
+
 }

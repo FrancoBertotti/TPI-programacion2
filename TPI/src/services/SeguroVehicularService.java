@@ -35,7 +35,6 @@ public class SeguroVehicularService {
         }
     }
     
-     // ELIMINAR SEGURO
     public boolean eliminarSeguro(long id) {
     try (Connection conn = DatabaseConnection.getConnection()) {
 
@@ -54,4 +53,19 @@ public class SeguroVehicularService {
         return false;
         }
     }
+    
+    public boolean actualizarSeguro(SeguroVehicular s) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+
+            int filas = seguroDao.actualizar(conn, s);
+
+            return filas > 0;
+
+        }   catch (SQLException e) {
+            System.err.println("Error al actualizar seguro: " + e.getMessage());
+            return false;
+        }
+    }   
+
+    
 }
