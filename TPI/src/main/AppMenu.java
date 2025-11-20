@@ -338,7 +338,6 @@ public class AppMenu {
             boolean exito = seguroService.eliminarSeguro(id);
 
             if (exito) {
-                System.out.println("Seguro eliminado correctamente.");
                 System.out.println("Si habia un vehiculo asociado este quedo NULL");
             } else {
                 System.out.println("No se pudo eliminar el seguro.");

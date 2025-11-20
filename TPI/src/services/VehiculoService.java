@@ -88,7 +88,7 @@ public class VehiculoService {
                 return false;
             }
 
-            System.out.println("Vehiculo eliminado correctamente (baja logica).");
+            System.out.println("Vehiculo eliminado correctamente.");
             return true;
 
         } catch (SQLException e) {
