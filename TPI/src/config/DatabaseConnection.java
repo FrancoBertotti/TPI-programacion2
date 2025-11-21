@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-    // Datos de conexión - Se configuran directamente en el código
     private static final String URL = "jdbc:mysql://localhost:3306/seguros";
     private static final String USER = "root";
     private static final String PASSWORD = "";
@@ -21,21 +20,6 @@ public class DatabaseConnection {
         }
     }
 
-    /**
-     * 🔹 Método para obtener una conexión a la base de datos.
-     *
-     * @return Connection si la conexión es exitosa.
-     * @throws SQLException Si hay un problema al conectarse.
-     */
-    /**
-     * public static Connection getConnection() throws SQLException { //
-     * Validación adicional para asegurarse de que las credenciales no estén
-     * vacías if (URL == null || URL.isEmpty() || USER == null || USER.isEmpty()
-     * || PASSWORD == null || PASSWORD.isEmpty()) { throw new
-     * SQLException("Configuración de la base de datos incompleta o inválida.");
-     * } return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
-     */
     public static Connection getConnection() {
         Connection conexion = null;
         try {
